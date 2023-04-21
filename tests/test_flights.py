@@ -49,7 +49,7 @@ def test_handle_error(
 ) -> None:
     """Assert method returns expected error codes."""
     try:
-        FlightTicket(**invalid_flight_ticket_data)
+        FlightTicket(**invalid_flight_ticket_data)  # type: ignore[arg-type]
     except pydantic.ValidationError as exc:
         error_codes = handle_errors(exc)
         assert error_codes == (
@@ -102,14 +102,14 @@ def test_validate_flight_ticket_data(
     [
         (
             output_valid_flight_ticket_data,
-            pytest.lazy_fixture("sample_flight_ticket_data"),
+            pytest.lazy_fixture("sample_flight_ticket_data"),  # type: ignore[operator] # noqa: E501
             "valid-flight-tickets",
             "Discount_code",
             "OFFER_20",
         ),
         (
             output_invalid_flight_ticket_data,
-            pytest.lazy_fixture("invalid_flight_ticket_data"),
+            pytest.lazy_fixture("invalid_flight_ticket_data"),  # type: ignore[operator] # noqa: E501
             "invalid-flight-tickets",
             "Error",
             "Invalid email",

@@ -117,7 +117,7 @@ def validate_flight_ticket_data(
             str(flight_ticket["Mobile_phone"])
         )
         try:
-            src.models.FlightTicket(**flight_ticket)
+            src.models.FlightTicket(**flight_ticket)  # type: ignore[arg-type]
             flight_ticket["Mobile_phone"] = _from_phone_number_model(
                 typing.cast(dict[str, str], flight_ticket["Mobile_phone"])
             )

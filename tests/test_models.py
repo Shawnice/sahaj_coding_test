@@ -38,7 +38,7 @@ class TestFlightTicket:
         self, sample_flight_ticket_data: dict[str, object]
     ) -> None:
         """Assert instantiate `FlightTicket` object successfully."""
-        flight_ticket = FlightTicket(**sample_flight_ticket_data)
+        flight_ticket = FlightTicket(**sample_flight_ticket_data)  # type: ignore[arg-type] # noqa: E501
         assert (
             flight_ticket.first_name == sample_flight_ticket_data["First_name"]
         )
@@ -60,7 +60,7 @@ class TestFlightTicket:
         """Assert model raises an error on invalid PNR."""
         sample_flight_ticket_data["PNR"] = pnr
         with pytest.raises(pydantic.ValidationError):
-            FlightTicket(**sample_flight_ticket_data)
+            FlightTicket(**sample_flight_ticket_data)  # type: ignore[arg-type]
 
     @pytest.mark.parametrize(
         "email",
@@ -72,7 +72,7 @@ class TestFlightTicket:
         """Assert model raises an error on invalid email."""
         sample_flight_ticket_data["Email"] = email
         with pytest.raises(pydantic.ValidationError):
-            FlightTicket(**sample_flight_ticket_data)
+            FlightTicket(**sample_flight_ticket_data)  # type: ignore[arg-type]
 
     @pytest.mark.parametrize(
         "cabin",
@@ -87,7 +87,7 @@ class TestFlightTicket:
         """Assert model raises an error on invalid booked cabin."""
         sample_flight_ticket_data["Booked_cabin"] = cabin
         with pytest.raises(pydantic.ValidationError):
-            FlightTicket(**sample_flight_ticket_data)
+            FlightTicket(**sample_flight_ticket_data)  # type: ignore[arg-type]
 
     def test_invalid_flight_ticket_data(
         self, sample_flight_ticket_data: dict[str, object]
@@ -95,4 +95,4 @@ class TestFlightTicket:
         """Assert model raises an error on invalid flight ticket data."""
         sample_flight_ticket_data["Ticketing_date"] = "2019-08-01"
         with pytest.raises(pydantic.ValidationError):
-            FlightTicket(**sample_flight_ticket_data)
+            FlightTicket(**sample_flight_ticket_data)  # type: ignore[arg-type]
