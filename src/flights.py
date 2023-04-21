@@ -125,5 +125,5 @@ def validate_flight_ticket_data(
                 str(flight_ticket["Fare_class"])
             )
             valid_flight_tickets.append(flight_ticket)
-        logger.info(f"Processed flight ticket: {flight_ticket}")
+        logger.debug(f"Processed flight ticket: {flight_ticket}")
     return valid_flight_tickets, invalid_flight_tickets
