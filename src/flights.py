@@ -1,4 +1,5 @@
 # Standard library
+import typing
 import csv
 import logging
 import pathlib
@@ -9,8 +10,17 @@ import pydantic
 # First-party
 import src.models
 import src.typings
+import os
 
 logger = logging.getLogger(__name__)
+
+
+def _increment_file_name(file_name: str) -> int:
+    """Determine incremented file name."""
+    i = 1
+    while os.path.exists(f"{file_name}_{i}.csv"):
+        i += 1
+    return i
 
 
 def _to_phone_number_model(phone_number: str) -> dict[str, str]:
@@ -18,9 +28,15 @@ def _to_phone_number_model(phone_number: str) -> dict[str, str]:
     return {"value": phone_number}
 
 
+def _from_phone_number_model(phone_numer_model: dict[str, str]) -> str:
+    """Covert `PhoneNumber` to `Mobile_phone` schema."""
+    return phone_numer_model["value"]
+
+
 def get_flight_ticket_data(
     file_name: pathlib.Path,
 ) -> list[src.typings.FlightTicket]:
+    """Read flight ticket data from CSV file."""
     with file_name.open() as fin:
         raw_data = csv.reader(fin, delimiter=",")
         headers = [header.strip() for header in next(raw_data)]
@@ -28,10 +44,14 @@ def get_flight_ticket_data(
     return [dict(zip(headers, row)) for row in rows]
 
 
-def output_validated_flight_ticket_data(
+def output_valid_flight_ticket_data(
     flight_tickets: list[src.typings.FlightTicket],
+    file_name: str = "valid-flight-tickets",
 ) -> None:
-    with open("valid-flight-tickets.csv", "w") as file:
+    if not flight_tickets:
+        return
+    increment = _increment_file_name(file_name)
+    with open(f"{file_name}_{increment}.csv", "w") as file:
         writer = csv.writer(file)
         for i, ticket in enumerate(flight_tickets):
             if i == 0:
@@ -41,8 +61,12 @@ def output_validated_flight_ticket_data(
 
 def output_invalid_flight_ticket_data(
     flight_tickets: list[src.typings.FlightTicket],
+    file_name: str = "invalid-flight-tickets",
 ) -> None:
-    with open("invalid-flight-tickets.csv", "w") as file:
+    if not flight_tickets:
+        return
+    increment = _increment_file_name(file_name)
+    with open(f"{file_name}_{increment}.csv", "w") as file:
         writer = csv.writer(file)
         for i, ticket in enumerate(flight_tickets):
             if i == 0:
@@ -79,10 +103,10 @@ def gen_discount_code(fare_class: str) -> str:
         return ""
 
 
-def process_flight_ticket_data(
+def validate_flight_ticket_data(
     flight_tickets: list[src.typings.FlightTicket],
-) -> None:
-    validated_flight_tickets = []
+) -> tuple[list[src.typings.FlightTicket], list[src.typings.FlightTicket]]:
+    valid_flight_tickets = []
     invalid_flight_tickets = []
     for flight_ticket in flight_tickets:
         flight_ticket["Mobile_phone"] = _to_phone_number_model(
@@ -90,6 +114,9 @@ def process_flight_ticket_data(
         )
         try:
             src.models.FlightTicket(**flight_ticket)
+            flight_ticket["Mobile_phone"] = _from_phone_number_model(
+                typing.cast(dict[str, str], flight_ticket["Mobile_phone"])
+            )
         except pydantic.ValidationError as exc:
             flight_ticket["Error"] = handle_errors(exc)
             invalid_flight_tickets.append(flight_ticket)
@@ -97,6 +124,6 @@ def process_flight_ticket_data(
             flight_ticket["Discount_code"] = gen_discount_code(
                 str(flight_ticket["Fare_class"])
             )
-            validated_flight_tickets.append(flight_ticket)
-    output_validated_flight_ticket_data(validated_flight_tickets)
-    output_invalid_flight_ticket_data(invalid_flight_tickets)
+            valid_flight_tickets.append(flight_ticket)
+        logger.info(f"Processed flight ticket: {flight_ticket}")
+    return valid_flight_tickets, invalid_flight_tickets

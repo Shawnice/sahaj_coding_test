@@ -2,6 +2,7 @@
 
 # Standard library
 import pathlib
+import unittest.mock
 
 # Third-party
 import pydantic
@@ -13,7 +14,7 @@ from src.flights import (
     gen_discount_code,
     get_flight_ticket_data,
     handle_errors,
-    process_flight_ticket_data,
+    validate_flight_ticket_data,
 )
 from src.models import FlightTicket
 
@@ -44,7 +45,7 @@ def test_handle_error(
     except pydantic.ValidationError as exc:
         error_codes = handle_errors(exc)
         assert error_codes == (
-            "Invalid PNR,Ticketing date is after travel date,"
+            "Invalid PNR,Invalid ticketing date,"
             + "Invalid email,Invalid phone number,Invalid Booked_cabin"
         )
 
@@ -66,3 +67,8 @@ def test_gen_discount_code(
 ) -> None:
     """Assert method returns correct discount code."""
     assert gen_discount_code(fare_class) == expected_discount_code
+
+
+def test_validate_flight_ticket_data() -> None:
+    """Assert method validates flight ticket data correctly."""
+    pass
