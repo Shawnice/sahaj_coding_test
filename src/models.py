@@ -85,5 +85,5 @@ class FlightTicket(pydantic.BaseModel):
         """
         travel_date = typing.cast(date, values["travel_date"])
         if ticketing_date > travel_date:
-            raise ValueError(f"Ticketing date is after travel date")
+            raise ValueError(f"Invalid ticketing date")
         return ticketing_date
