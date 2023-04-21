@@ -1,0 +1,5 @@
+First_name,Last_name,PNR,Fare_class,Travel_date,Pax,Ticketing_date,Email,Mobile_phone,Booked_cabin,Discount_code
+Abhishek,Kumar,ABC123,F,2019-07-31,2,2019-05-21,abhishek@zzz.com,7448212116,Economy,OFFER_30
+Will,Chang,BNN012,A,2019-06-30,2,2019-05-19,john.wick@gamil.com,7448212216,Business,OFFER_20
+Mary,Lin,CXD345,K,2019-08-31,2,2019-05-30,mary.lin@hotmail.com,7448212316,Premium Economy,OFFER_30
+Alice,Hsu,A1F5G4,Y,2019-07-15,2,2019-05-21,alice.hsu@yahoo.com,7448212416,First,

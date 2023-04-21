@@ -1,0 +1,6 @@
+First_name,Last_name,PNR,Fare_class,Travel_date,Pax,Ticketing_date,Email,Mobile_phone,Booked_cabin,Error
+Monin,Sankar,PQ234,C,2019-08-30,2,2019-05-22,monin@zzz.com,{'value': '7448212117'},Economy,Invalid PNR
+Radhika,Suresh,ZZZ345,T,2019-05-11,4,2019-05-21,radhika@zzz.com,{'value': '7448212118'},Business,Invalid ticketing date
+Kalyani,Ben,A1B2C3,M,2019-05-21,1,2019-05-21,kben@zzz,{'value': '7448212119'},Premium Economy,Invalid email
+Somnath,Batra,X1Y2Z4,Z,2019-07-25,3,2019-05-23,sbatra@zzz.com,{'value': '9876543214'},Economy,Invalid phone number
+John,Wick,X1Y2Z4,Z,2019-07-25,3,2019-05-23,sbatra@zzz.com,{'value': '7448212129'},Second,Invalid Booked_cabin
