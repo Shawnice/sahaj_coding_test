@@ -11,10 +11,14 @@ import pytest
 
 # First-party
 import src.typings
-from src.flights import (gen_discount_code, get_flight_ticket_data,
-                         handle_errors, output_invalid_flight_ticket_data,
-                         output_valid_flight_ticket_data,
-                         validate_flight_ticket_data)
+from src.flights import (
+    gen_discount_code,
+    get_flight_ticket_data,
+    handle_errors,
+    output_invalid_flight_ticket_data,
+    output_valid_flight_ticket_data,
+    validate_flight_ticket_data,
+)
 from src.models import FlightTicket
 
 BASE_OUTPUT_HEADERS = (
@@ -73,9 +77,18 @@ def test_gen_discount_code(
     assert gen_discount_code(fare_class) == expected_discount_code
 
 
-def test_validate_flight_ticket_data() -> None:
+def test_validate_flight_ticket_data(
+    sample_flight_ticket_data: src.typings.FlightTicket,
+    invalid_flight_ticket_data: src.typings.FlightTicket,
+) -> None:
     """Assert method validates flight ticket data correctly."""
-    pass
+    valid_flight_ticket, invalid_flight_ticket = validate_flight_ticket_data(
+        [sample_flight_ticket_data, invalid_flight_ticket_data]
+    )
+    assert len(valid_flight_ticket) == 1
+    assert "Discount_code" in valid_flight_ticket[0]
+    assert len(invalid_flight_ticket) == 1
+    assert "Error" in invalid_flight_ticket[0]
 
 
 @pytest.mark.parametrize(
