@@ -49,33 +49,33 @@ def get_flight_ticket_data(
 def output_valid_flight_ticket_data(
     flight_tickets: list[src.typings.FlightTicket],
     file_name: str = "./valid-flight-tickets",
-) -> None:
+) -> str | None:
     """Output valid flight ticket data to CSV file."""
-    if not flight_tickets:
-        return
     increment = _increment_file_name(file_name)
-    with open(f"{file_name}_{increment}.csv", "w") as file:
+    complete_file_name = f"{file_name}_{increment}.csv"
+    with open(f"{complete_file_name}", "w") as file:
         writer = csv.writer(file)
         for i, ticket in enumerate(flight_tickets):
             if i == 0:
                 writer.writerow(ticket.keys())
             writer.writerow(ticket.values())
+    return complete_file_name
 
 
 def output_invalid_flight_ticket_data(
     flight_tickets: list[src.typings.FlightTicket],
     file_name: str = "./invalid-flight-tickets",
-) -> None:
+) -> str:
     """Output invalid flight ticket data to CSV file."""
-    if not flight_tickets:
-        return
     increment = _increment_file_name(file_name)
-    with open(f"{file_name}_{increment}.csv", "w") as file:
+    complete_file_name = f"{file_name}_{increment}.csv"
+    with open(f"{complete_file_name}", "w") as file:
         writer = csv.writer(file)
         for i, ticket in enumerate(flight_tickets):
             if i == 0:
                 writer.writerow(ticket.keys())
             writer.writerow(ticket.values())
+    return complete_file_name
 
 
 def handle_errors(exc: pydantic.error_wrappers.ValidationError) -> str:
@@ -105,6 +105,7 @@ def gen_discount_code(fare_class: str) -> str:
     elif ord("L") <= ord(fare_class) <= ord("R"):
         discount_code = "OFFER_25"
     return discount_code
+
 
 def validate_flight_ticket_data(
     flight_tickets: list[src.typings.FlightTicket],

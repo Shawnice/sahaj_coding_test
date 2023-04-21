@@ -117,7 +117,7 @@ def test_validate_flight_ticket_data(
     ],
 )
 def test_output_valid_and_invalid_flight_ticket_data(
-    method: typing.Callable[[list[src.typings.FlightTicket], str], None],
+    method: typing.Callable[[list[src.typings.FlightTicket], str], str | None],
     flight_ticket_data: src.typings.FlightTicket,
     file_name: str,
     new_header: str,
@@ -126,13 +126,13 @@ def test_output_valid_and_invalid_flight_ticket_data(
 ) -> None:
     """Assert method outputs valid flight ticket data correctly."""
     full_path = tmp_path / file_name
-    method([], str(full_path))
     flight_ticket_data[new_header] = new_column_value
-    assert not os.path.exists(f"{file_name}_1.csv")
-    method([flight_ticket_data], str(full_path))
-    assert os.path.exists(f"{full_path}_1.csv")
-    method([flight_ticket_data], str(full_path))
-    assert os.path.exists(f"{full_path}_2.csv")
-    with open(f"{full_path}_1.csv") as file:
+    output_file = method([flight_ticket_data], str(full_path))
+    assert output_file
+    assert os.path.exists(output_file)
+    output_file = method([flight_ticket_data], str(full_path))
+    assert output_file
+    assert os.path.exists(output_file)
+    with open(f"{output_file}") as file:
         headers = file.readline().strip()
     assert headers == f"{BASE_OUTPUT_HEADERS},{new_header}"
