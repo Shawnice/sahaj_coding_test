@@ -1,8 +1,9 @@
 # Standard library
-import typing
 import csv
 import logging
+import os
 import pathlib
+import typing
 
 # Third-party
 import pydantic
@@ -10,7 +11,6 @@ import pydantic
 # First-party
 import src.models
 import src.typings
-import os
 
 logger = logging.getLogger(__name__)
 
