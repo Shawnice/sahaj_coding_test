@@ -8,6 +8,7 @@ import pytest
 
 # First-party
 from src.flights import get_flight_ticket_data
+import src.typings
 
 
 @pytest.fixture()
@@ -17,7 +18,7 @@ def sample_flight_ticket_data_path() -> pathlib.Path:
 
 
 @pytest.fixture()
-def sample_flight_ticket_data() -> dict[str, object]:
+def sample_flight_ticket_data() -> src.typings.FlightTicket:
     """Return sample flight ticket data."""
     return {
         "First_name": "Abhishek",
@@ -34,7 +35,7 @@ def sample_flight_ticket_data() -> dict[str, object]:
 
 
 @pytest.fixture()
-def invalid_flight_ticket_data() -> dict[str, object]:
+def invalid_flight_ticket_data() -> src.typings.FlightTicket:
     """Return invalid flight ticket data."""
     return {
         "First_name": "Monin",

@@ -46,7 +46,7 @@ def get_flight_ticket_data(
 
 def output_valid_flight_ticket_data(
     flight_tickets: list[src.typings.FlightTicket],
-    file_name: str = "valid-flight-tickets",
+    file_name: str = "./valid-flight-tickets",
 ) -> None:
     if not flight_tickets:
         return
@@ -61,7 +61,7 @@ def output_valid_flight_ticket_data(
 
 def output_invalid_flight_ticket_data(
     flight_tickets: list[src.typings.FlightTicket],
-    file_name: str = "invalid-flight-tickets",
+    file_name: str = "./invalid-flight-tickets",
 ) -> None:
     if not flight_tickets:
         return
