@@ -32,13 +32,13 @@ class PhoneNumber(pydantic.BaseModel):
             parsed_phone_number = phonenumbers.parse(
                 phone_number, str(values.get("country_code"))
             )
-        except phonenumbers.NumberParseException:
-            raise ValueError(f"Invalid phone number")
+        except phonenumbers.NumberParseException as exc:
+            raise ValueError("Invalid phone number") from exc
         if phonenumbers.is_valid_number(parsed_phone_number):
             return phonenumbers.format_number(
                 parsed_phone_number, phonenumbers.PhoneNumberFormat.E164
             )
-        raise ValueError(f"Invalid phone number")
+        raise ValueError("Invalid phone number")
 
 
 class FlightTicket(pydantic.BaseModel):
@@ -85,5 +85,5 @@ class FlightTicket(pydantic.BaseModel):
         """
         travel_date = typing.cast(date, values["travel_date"])
         if ticketing_date > travel_date:
-            raise ValueError(f"Invalid ticketing date")
+            raise ValueError("Invalid ticketing date")
         return ticketing_date

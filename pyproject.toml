@@ -47,8 +47,14 @@ select = [
 ignore = [
      # Missing type annotation for `self` in method
      "ANN101",
+     # Missing type annotation for `cls` in method
+     "ANN102",
      # Missing docstring in magic method
      "D105",
+     # Section name should end with a newline
+     "D406",
+     # Missing dashed underline after section
+     "D407",
 ]
 
 [tool.ruff.per-file-ignores]

@@ -59,7 +59,7 @@ def test_handle_error(
 
 
 @pytest.mark.parametrize(
-    "fare_class, expected_discount_code",
+    ("fare_class", "expected_discount_code"),
     [
         ("A", "OFFER_20"),
         ("E", "OFFER_20"),
@@ -92,7 +92,13 @@ def test_validate_flight_ticket_data(
 
 
 @pytest.mark.parametrize(
-    "method, flight_ticket_data, file_name, new_header, new_column_value",
+    (
+        "method",
+        "flight_ticket_data",
+        "file_name",
+        "new_header",
+        "new_column_value",
+    ),
     [
         (
             output_valid_flight_ticket_data,
@@ -127,6 +133,6 @@ def test_output_valid_and_invalid_flight_ticket_data(
     assert os.path.exists(f"{full_path}_1.csv")
     method([flight_ticket_data], str(full_path))
     assert os.path.exists(f"{full_path}_2.csv")
-    with open(f"{full_path}_1.csv", "r") as file:
+    with open(f"{full_path}_1.csv") as file:
         headers = file.readline().strip()
     assert headers == f"{BASE_OUTPUT_HEADERS},{new_header}"

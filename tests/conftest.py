@@ -7,7 +7,6 @@ import pathlib
 import pytest
 
 # First-party
-from src.flights import get_flight_ticket_data
 import src.typings
 
 

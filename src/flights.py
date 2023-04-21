@@ -1,3 +1,5 @@
+"""Module for handling flight ticket data."""
+
 # Standard library
 import csv
 import logging
@@ -41,13 +43,14 @@ def get_flight_ticket_data(
         raw_data = csv.reader(fin, delimiter=",")
         headers = [header.strip() for header in next(raw_data)]
         rows = [list(map(str.strip, row)) for row in raw_data]
-    return [dict(zip(headers, row)) for row in rows]
+    return [dict(zip(headers, row, strict=True)) for row in rows]
 
 
 def output_valid_flight_ticket_data(
     flight_tickets: list[src.typings.FlightTicket],
     file_name: str = "./valid-flight-tickets",
 ) -> None:
+    """Output valid flight ticket data to CSV file."""
     if not flight_tickets:
         return
     increment = _increment_file_name(file_name)
@@ -63,6 +66,7 @@ def output_invalid_flight_ticket_data(
     flight_tickets: list[src.typings.FlightTicket],
     file_name: str = "./invalid-flight-tickets",
 ) -> None:
+    """Output invalid flight ticket data to CSV file."""
     if not flight_tickets:
         return
     increment = _increment_file_name(file_name)
@@ -93,19 +97,19 @@ def handle_errors(exc: pydantic.error_wrappers.ValidationError) -> str:
 
 def gen_discount_code(fare_class: str) -> str:
     """Generate a discount code based on `Fare_class`."""
+    discount_code = ""
     if ord("A") <= ord(fare_class) <= ord("E"):
-        return "OFFER_20"
+        discount_code = "OFFER_20"
     elif ord("F") <= ord(fare_class) <= ord("K"):
-        return "OFFER_30"
+        discount_code = "OFFER_30"
     elif ord("L") <= ord(fare_class) <= ord("R"):
-        return "OFFER_25"
-    else:
-        return ""
-
+        discount_code = "OFFER_25"
+    return discount_code
 
 def validate_flight_ticket_data(
     flight_tickets: list[src.typings.FlightTicket],
 ) -> tuple[list[src.typings.FlightTicket], list[src.typings.FlightTicket]]:
+    """Validate flight ticket data."""
     valid_flight_tickets = []
     invalid_flight_tickets = []
     for flight_ticket in flight_tickets:

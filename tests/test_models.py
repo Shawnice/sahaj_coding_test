@@ -1,6 +1,6 @@
 """Test suite for `src.models`."""
-
 # Third-party
+import pydantic
 import pytest
 
 # First-party
@@ -11,7 +11,7 @@ class TestPhoneNumber:
     """Tests for `src.models.PhoneNumber`."""
 
     @pytest.mark.parametrize(
-        "uk_phone_number, expected",
+        ("uk_phone_number", "expected"),
         [
             ("7448212116", "+447448212116"),
             ("07448212116", "+447448212116"),
@@ -27,7 +27,7 @@ class TestPhoneNumber:
 
     def test_validate_invalid_phone_number(self) -> None:
         """Assert method raises an error on invalid phone number."""
-        with pytest.raises(ValueError):
+        with pytest.raises(pydantic.ValidationError):
             PhoneNumber(value="9876543210")
 
 
@@ -51,8 +51,7 @@ class TestFlightTicket:
         "pnr",
         [
             "ZZZ",
-            "12*AB&"
-            "111Y2Z4D",
+            "12*AB&" "111Y2Z4D",
         ],
     )
     def test_invalid_pnr(
@@ -60,7 +59,7 @@ class TestFlightTicket:
     ) -> None:
         """Assert model raises an error on invalid PNR."""
         sample_flight_ticket_data["PNR"] = pnr
-        with pytest.raises(ValueError):
+        with pytest.raises(pydantic.ValidationError):
             FlightTicket(**sample_flight_ticket_data)
 
     @pytest.mark.parametrize(
@@ -72,7 +71,7 @@ class TestFlightTicket:
     ) -> None:
         """Assert model raises an error on invalid email."""
         sample_flight_ticket_data["Email"] = email
-        with pytest.raises(ValueError):
+        with pytest.raises(pydantic.ValidationError):
             FlightTicket(**sample_flight_ticket_data)
 
     @pytest.mark.parametrize(
@@ -87,7 +86,7 @@ class TestFlightTicket:
     ) -> None:
         """Assert model raises an error on invalid booked cabin."""
         sample_flight_ticket_data["Booked_cabin"] = cabin
-        with pytest.raises(ValueError):
+        with pytest.raises(pydantic.ValidationError):
             FlightTicket(**sample_flight_ticket_data)
 
     def test_invalid_flight_ticket_data(
@@ -95,5 +94,5 @@ class TestFlightTicket:
     ) -> None:
         """Assert model raises an error on invalid flight ticket data."""
         sample_flight_ticket_data["Ticketing_date"] = "2019-08-01"
-        with pytest.raises(ValueError):
+        with pytest.raises(pydantic.ValidationError):
             FlightTicket(**sample_flight_ticket_data)
