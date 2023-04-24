@@ -8,14 +8,14 @@ help: ## Help guide
 
 .PHONY: format
 format: ## Format modified python files
-	git diff master --name-only --oneline -- '*.py' | xargs isort
-	git diff master --name-only --oneline -- '*.py' | xargs black
+	git diff main --name-only --oneline -- '*.py' | xargs isort
+	git diff main --name-only --oneline -- '*.py' | xargs black
 
 
 .PHONY: lint
 lint: ## Lint modified python files
-	-git diff master --name-only --oneline -- '*.py' | xargs ruff
-	-git diff master --name-only --oneline -- '*.py' | xargs mypy
+	-git diff main --name-only --oneline -- '*.py' | xargs ruff
+	-git diff main --name-only --oneline -- '*.py' | xargs mypy
 
 
 .PHONY: run
